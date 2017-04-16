@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Bank.Models.Prestamo>
+
+@{
+    ViewBag.Title = "Prestamos";
+}
+
+<h2>Prestamos</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plazo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Monto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TasaInteres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TasaMora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deuda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProximoPago)
+        </th> 
+        <th>
+            <div class="btn-group">
+                <a data-toggle="dropdown" data-target="#" class="btn btn-sm btn-info">Estado</a>
+                <a href="#" data-target="#" class="dropdown-toggle btn-sm btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Solicitado", "Index", new { status = Bank.Models.Estado.Solicitado }, new { @class = "btn btn-sm btn-info" })</li>
+                    <li>@Html.ActionLink("Aprovado", "Index", new { status = Bank.Models.Estado.Aprovado }, new { @class = "btn btn-sm btn-info" })</li>
+                    <li>@Html.ActionLink("Pagado", "Index", new { status = Bank.Models.Estado.Pagado }, new { @class = "btn btn-sm btn-info" })</li>
+                </ul>
+            </div>        
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plazo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TasaInteres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TasaMora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deuda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProximoPago)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            <div class="btn-group">
+                <a data-toggle="dropdown" data-target="#" class="btn btn-info">Opciones</a>
+                <a href="#" data-target="#" class="dropdown-toggle btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("editar", "edit", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>
+                    <li>@Html.ActionLink("detalles", "details", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>
+                    <li>@Html.ActionLink("Eliminar", "delete", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>  
+                    <li class="divider"></li>
+                    @if (item.Estado == Bank.Models.Estado.Solicitado)
+                    {
+                        <li>@Html.ActionLink("aprobar", "aprobar", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
+                    }
+                    else if(item.Estado == Bank.Models.Estado.Aprovado)
+                    {
+                        <li>@Html.ActionLink("Pagar", "pay", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
+                    }
+                </ul>
+            </div>
+        </td>
+
+
+    </tr>
+}
+
+</table>

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Amortizacion";
+}
+
+<h2>Amortizacion</h2>
+<div class="row-content">
+    <div class="col-sm-4 form-group">
+        <input type="number" step="any" id="monto"  placeholder="Monto" class="form-control">
+    </div>
+    <div class="col-sm-4 form-group">
+        <input type="number" id="plazo" placeholder="Plazo" class="form-control">
+    </div>
+    <div class="col-sm-4 form-group">
+        <input type="number" step="any" placeholder="Tasa Interes" id="tasa" class="form-control">
+    </div>
+    <div class="text-center">
+        <input type="button" value="Genera tabla" onclick="genera_tabla()" class="btn btn-raised btn-primary">
+    </div>
+</div>
+<div id="body"></div>
+<script type="text/javascript" src="~/Scripts/Amorizacion.js"></script>

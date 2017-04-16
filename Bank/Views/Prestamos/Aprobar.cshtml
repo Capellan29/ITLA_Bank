@@ -1,0 +1,154 @@
+﻿@model Bank.Models.Prestamo
+
+@{
+    ViewBag.Title = "Aprobar";
+}
+
+<h2>Aprobar</h2>
+
+<div>
+    <h4>Prestamo</h4>
+    <hr />
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Cliente</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Cedula)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Cedula)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Direccion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Direccion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Sexo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Sexo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Edad)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Edad)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Correo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Correo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.Telefono)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.Telefono) ||
+                    @Model.Cliente.Celular
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Prestamo</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Plazo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Plazo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Monto)
+                </dt>
+
+                <dd>
+                    $ @Html.DisplayFor(model => model.Monto)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TasaInteres)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TasaInteres) %
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TasaMora)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TasaMora) %
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Garante</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Garante.Nombre)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Garante.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Garante.Cedula)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Garante.Cedula)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Garante.Telefono)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Garante.Telefono)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Garante.Direccion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Garante.Direccion)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-raised btn-info" })
+    @Html.ActionLink("Aprobar", "Otorgar", new { id = Model.ClienteID }, new { @class = "btn btn-raised btn-primary" }) |
+</p>
+

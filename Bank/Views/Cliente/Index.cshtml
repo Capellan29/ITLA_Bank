@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<Bank.Models.Cliente>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-dismissible alert-info">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <strong>Mensaje!!!</strong>
+        @ViewBag.Mensaje
+    </div>
+}
+
+
+<h2>Clientes</h2>
+
+@using (Html.BeginForm("Index", "Cliente", FormMethod.Get))
+{
+    <div class="form-group label-floating col-sm-4">
+        <div class="input-group">
+            <label class="control-label" for="addon2">Filtrar pro nombre</label>
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @id = "addon2", @class = "form-control", @autocomplete = "off" })
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-raised btn-primary">Ok</button>
+            </span>
+        </div>
+    </div>
+}
+<br />
+<br />
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            Numero Cuenta
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Cedula
+        </th>
+        <th>
+            Correo
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Celular
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroCuenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Celular)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a data-toggle="dropdown" data-target="#" class="btn btn-info">Opciones</a>
+                    <a href="#" data-target="#" class="dropdown-toggle btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("editar", "edit", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
+                        <li>@Html.ActionLink("detalles", "details", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
+                        <li>@Html.ActionLink("Eliminar", "delete", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
+                        <li class="divider"></li>
+                        <li>@Html.ActionLink("Nuevo Prestamo", "Create", "Prestamos", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
+                        <li>@Html.ActionLink("Net Banking", "ActivaNet", "Account", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
+                    </ul>
+                </div>        
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-raised btn-primary" })
+
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))

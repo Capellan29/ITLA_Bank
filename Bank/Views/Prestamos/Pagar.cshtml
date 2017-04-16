@@ -1,0 +1,98 @@
+﻿@model Bank.Models.PagoPrestamo
+
+@{
+    ViewBag.Title = "Pagar";
+}
+
+<h2>Pagar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Pago</h4>
+        <hr />
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Pago</h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Cuota)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Cuota)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Mora)
+                    </dt>
+
+                    <dd id="mora">
+                        @Html.DisplayFor(model => model.Mora)
+                    </dd>
+                    <dt>
+                        Fecha
+                    </dt>
+
+                    <dd id="fecha">
+                       @Html.DisplayFor(model => model.Prestamo.ProximoPago)
+                    </dd>
+
+                    <dt>
+                        Pago Total
+                    </dt>
+                    <dd id="pago">
+                        @{
+                            var pago = Model.Mora + Model.Cuota;
+                        }
+                        @pago
+                    </dd>
+                </dl>
+            </div>
+            <div class="panel-footer">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Fecha">Fecha Actual</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control col-md-4", @type = "date", @onchange = "saludar()" } })
+                        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-raised btn-info" })
+                <input type="submit" value="Pagar" class="btn btn-raised btn-primary" />
+            </div>
+        </div>
+    </div>
+                            }
+
+
+
+
+<script>
+    var hoy = new Date();
+    var dd = hoy.getDate();
+
+    var mm = hoy.getMonth() + 1;
+    var yyyy = hoy.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    document.getElementById("Fecha").value = yyyy + '-' + mm + '-' + dd;
+
+    function saludar()
+    {
+        var fecha = document.getElementById("Fecha").value;
+
+    }
+
+</script>
