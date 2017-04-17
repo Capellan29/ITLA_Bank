@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Bank.Models.Cuenta>
+
+@{
+    ViewBag.Title = "Cuentas";
+}
+
+<h2>Cuentas</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titular.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Numero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Saldo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Titular.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Numero)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            <div class="btn-group">
+                <a data-toggle="dropdown" data-target="#" class="btn btn-info">Opciones</a>
+                <a href="#" data-target="#" class="dropdown-toggle btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("editar", "edit", new { id = item.CuentaID }, new { @class = "btn btn-info" })</li>
+                    <li>@Html.ActionLink("detalles", "details", new { id = item.CuentaID }, new { @class = "btn btn-info" })</li>
+                    <li>@Html.ActionLink("Eliminar", "delete", new { id = item.CuentaID }, new { @class = "btn btn-info" })</li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,45 @@
+﻿@model Bank.Models.Cuenta
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Cuenta</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CuentaID)
+
+        <div class="form-group form-group-lg label-static">
+                @Html.LabelFor(m => m.Saldo, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Saldo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Saldo, "", new { @class = "text-danger" })
+        </div>
+
+        
+        <div class="form-group form-group-lg label-static">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label" })
+            @Html.EnumDropDownListFor(model => model.Estado, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group form-group-lg label-static">
+                @Html.LabelFor(model => model.ClienteID, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("ClienteID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClienteID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-raised btn-info" })
+                <input type="submit" value="Guardar" class="btn btn-raised btn-primary" />
+            </div>
+        </div>
+    </div>
+}

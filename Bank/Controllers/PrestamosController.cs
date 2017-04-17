@@ -8,9 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using Bank.Models;
 
-
 namespace Bank.Controllers
 {
+
     [Authorize]
     public class PrestamosController : Controller
     {
@@ -26,7 +26,7 @@ namespace Bank.Controllers
                 prestamo = prestamo
                     .Where(p => p.Estado == status);
             }
-           return View(prestamo.ToList());
+            return View(prestamo.ToList());
         }
 
         // GET: Prestamos/Details/5

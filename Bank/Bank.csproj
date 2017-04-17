@@ -196,6 +196,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PrestamoOperations.cs" />
@@ -222,6 +223,10 @@
     <Compile Include="Migrations\201704161525254_AddClientToUser2.cs" />
     <Compile Include="Migrations\201704161525254_AddClientToUser2.Designer.cs">
       <DependentUpon>201704161525254_AddClientToUser2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704170406355_cuentas.cs" />
+    <Compile Include="Migrations\201704170406355_cuentas.Designer.cs">
+      <DependentUpon>201704170406355_cuentas.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,6 +321,11 @@
     <Content Include="Views\Prestamos\Ticket.cshtml" />
     <Content Include="Views\Prestamos\Amortizacion.cshtml" />
     <Content Include="Views\Account\ActivaNet.cshtml" />
+    <Content Include="Views\Cuentas\Create.cshtml" />
+    <Content Include="Views\Cuentas\Delete.cshtml" />
+    <Content Include="Views\Cuentas\Details.cshtml" />
+    <Content Include="Views\Cuentas\Edit.cshtml" />
+    <Content Include="Views\Cuentas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -350,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704161525254_AddClientToUser2.resx">
       <DependentUpon>201704161525254_AddClientToUser2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704170406355_cuentas.resx">
+      <DependentUpon>201704170406355_cuentas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,103 @@
+﻿@model Bank.Models.Cuenta
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Cliente</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Nombre)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.FullName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Cedula)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Cedula)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Direccion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Direccion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Sexo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Sexo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Edad)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Edad)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.EstadoCivil)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.EstadoCivil)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Correo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Correo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Titular.Telefono)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Titular.Telefono) ||
+                    @Model.Titular.Celular
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Cuenta</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Numero)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Numero)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Saldo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Saldo)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-raised btn-info" })
+    @Html.ActionLink("Editar", "Edit", new { id = Model.CuentaID }, new { @class = "btn btn-raised btn-primary" }) 
+</p>

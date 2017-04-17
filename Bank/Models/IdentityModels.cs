@@ -49,5 +49,7 @@ namespace Bank.Models
             modelBuilder.Entity<Prestamo>()
                 .HasRequired(p => p.Garante).WithRequiredPrincipal(g => g.Prestamo);
         }
+
+        public System.Data.Entity.DbSet<Bank.Models.Cuenta> Cuentas { get; set; }
     }
 }

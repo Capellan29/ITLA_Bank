@@ -32,7 +32,7 @@ namespace Bank.Models
         public decimal Deuda { get; set; }
         [Display(Name = "Proximo pago")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ProximoPago { get; set; }
         public Estado Estado { get; set; }
 
