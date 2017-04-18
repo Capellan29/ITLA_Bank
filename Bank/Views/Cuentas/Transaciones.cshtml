@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Bank.Models.Transaccion>
+
+
+<br />
+<br />  
+
+@foreach (var item in Model)
+{
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="row-action-primary">
+                <i class="material-icons">
+                    @if (item.Tipo == Bank.Models.TipoTransferencia.Retiro)
+                    {
+                        ViewBag.icon = "call_made";
+                    }
+                    else
+                    {
+                        ViewBag.icon = "call_received";
+                    }
+                    @ViewBag.icon
+                </i>
+            </div>
+            <div class="row-content">
+                <div class="least-content">
+                    @item.Fecha.ToShortDateString()
+                </div>
+                <h4 class="list-group-item-heading text-info">
+                    @item.Tipo
+                </h4>
+                <div class="list-group-item-text">
+                    <p>Se realizo un @item.Tipo  con un monto de @item.Monto, Aqui tienes un peuqeño comentario:</p>
+                    <p class="text-info">"@item.Comentario"</p>
+                </div>
+            </div>
+        </div>
+        <div class="list-group-separator"></div>
+    </div>
+}

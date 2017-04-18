@@ -25,13 +25,14 @@
             <label class="control-label" for="addon2">Filtrar pro nombre</label>
             @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @id = "addon2", @class = "form-control", @autocomplete = "off" })
             <span class="input-group-btn">
-                <button type="button" class="btn btn-raised btn-primary">Ok</button>
+                <button class="btn btn-info btn-fab btn-fab-mini" type="button">
+                    <i class="material-icons">search</i>
+                </button>
+
             </span>
         </div>
     </div>
-}
-<br />
-<br />
+}   
 
 <table class="table table-hover">
     <tr>
@@ -87,7 +88,9 @@
                         <li>@Html.ActionLink("Eliminar", "delete", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
                         <li class="divider"></li>
                         <li>@Html.ActionLink("Nuevo Prestamo", "Create", "Prestamos", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
+                        <li>@Html.ActionLink("Solicitar Cuenta", "Create", "Cuentas", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
                         <li>@Html.ActionLink("Net Banking", "ActivaNet", "Account", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
+                   
                     </ul>
                 </div>        
             </td>
@@ -95,11 +98,14 @@
     }
 
 </table>
-
-@Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-raised btn-primary" })
-
-
+<a class="btn btn-primary btn-fab" href="/Cliente/Create">
+    <i class="material-icons">add</i>
+</a>
 <br />
+<br />
+<br />
+<br />
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))

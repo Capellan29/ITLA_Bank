@@ -32,6 +32,7 @@ namespace Bank.Models
         public DbSet<Garante> Garante { set; get; }
         public DbSet<Prestamo> Prestamo { set; get; }
         public DbSet<PagoPrestamo> Pago { set; get; }
+        public DbSet<Transaccion> Transaccion { get; set; }
 
         public static ApplicationDbContext Create()
         {

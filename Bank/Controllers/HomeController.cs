@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Bank.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,11 +24,20 @@ namespace Bank.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Detalles()
         {
-            ViewBag.Message = "Your contact page.";
+            ApplicationDbContext db = new ApplicationDbContext();
+            string id = User.Identity.GetUserId();
+            var usuario = db.Users.Find(id);
 
-            return View();
+
+            Cliente cliente = db.Cliente.Find(usuario.ClienteID);
+            
+            if (cliente == null)
+            {
+                return HttpNotFound();
+            }
+            return View(cliente);
         }
     }
 }

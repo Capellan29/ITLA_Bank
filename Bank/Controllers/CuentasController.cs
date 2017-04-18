@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bank.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Bank.Controllers
 {
@@ -15,10 +16,22 @@ namespace Bank.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Cuentas
+        [Authorize]
         public ActionResult Index()
         {
             var cuentas = db.Cuentas.Include(c => c.Titular);
             return View(cuentas.ToList());
+        }
+
+        public ActionResult CuentasCliente()
+        {
+            string id = User.Identity.GetUserId();
+            var usuario = db.Users.Find(id);
+
+            var cuentas = db.Cuentas
+                .Where(c => c.ClienteID == usuario.ClienteID)
+                .Include(c => c.Titular);
+            return View("index",cuentas.ToList());
         }
 
         // GET: Cuentas/Details/5
@@ -37,9 +50,10 @@ namespace Bank.Controllers
         }
 
         // GET: Cuentas/Create
-        public ActionResult Create()
+        [Authorize(Roles = "admin")]
+        public ActionResult Create(int? id)
         {
-            ViewBag.ClienteID = new SelectList(db.Cliente, "ClienteID", "FullName");
+            ViewBag.ClienteID = new SelectList(db.Cliente, "ClienteID", "FullName", id);
             return View();
         }
 
@@ -48,6 +62,8 @@ namespace Bank.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+
         public ActionResult Create([Bind(Include = "CuentaID,Saldo,Estado,ClienteID")] Cuenta cuenta)
         {
             if (ModelState.IsValid)
@@ -63,6 +79,7 @@ namespace Bank.Controllers
         }
 
         // GET: Cuentas/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,6 +99,7 @@ namespace Bank.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CuentaID,Saldo,Estado,ClienteID")] Cuenta cuenta)
         {
@@ -96,6 +114,7 @@ namespace Bank.Controllers
         }
 
         // GET: Cuentas/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -113,6 +132,7 @@ namespace Bank.Controllers
 
         // POST: Cuentas/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -120,6 +140,158 @@ namespace Bank.Controllers
             db.Cuentas.Remove(cuenta);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult Deposito(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Cuenta cuenta = db.Cuentas.Find(id);
+            if (cuenta == null)
+            {
+                return HttpNotFound();
+            }
+            Transaccion transaccion = new Transaccion();
+            transaccion.Cuenta = cuenta;
+            return View(transaccion);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult Deposito([Bind(Include = "Monto,Fecha,Comentario")] Transaccion Transaccion, int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Cuenta cuenta = db.Cuentas.Find(id);
+            if (cuenta == null)
+            {
+                return HttpNotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                Transaccion.CuentaID = (int)id;
+                Transaccion.TransaccionID = new Random(cuenta.Numero * (DateTime.Now.Day + DateTime.Now.Second / (DateTime.Now.Month))).Next();
+                Transaccion.Tipo = TipoTransferencia.Deposito;
+                Transaccion.CuentaIDFrom = 0;
+                db.Entry(Transaccion).State = EntityState.Added;
+                Transaccion.Cuenta.Saldo += Transaccion.Monto;
+                db.SaveChanges();
+                RedirectToAction("Index");
+            }
+            Transaccion.Cuenta = cuenta;
+            return View(Transaccion);
+        }
+
+
+        [Authorize(Roles = "admin")]
+        public ActionResult Retiro(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Cuenta cuenta = db.Cuentas.Find(id);
+            if (cuenta == null)
+            {
+                return HttpNotFound();
+            }
+            Transaccion transaccion = new Transaccion();
+            transaccion.Cuenta = cuenta;
+            return View(transaccion);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult Retiro([Bind(Include = "Monto,Fecha,Comentario")] Transaccion Transaccion, int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Cuenta cuenta = db.Cuentas.Find(id);
+            if (cuenta == null)
+            {
+                return HttpNotFound();
+            }
+                        
+            if (ModelState.IsValid)
+            {
+                Transaccion.Cuenta = cuenta;
+                if (Transaccion.Cuenta.Saldo > (Transaccion.Monto - 100))
+                {
+                    Transaccion.CuentaID = (int)id;
+                    Transaccion.TransaccionID = new Random(cuenta.Numero * (DateTime.Now.Day + DateTime.Now.Second / (DateTime.Now.Month))).Next();
+                    Transaccion.Tipo = TipoTransferencia.Retiro;
+                    Transaccion.CuentaIDFrom = 0;
+                    db.Entry(Transaccion).State = EntityState.Added;
+                    Transaccion.Cuenta.Saldo -= Transaccion.Monto;
+                    db.SaveChanges();
+                    RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Monto", "Su saldo es inferior a la cantidad intenta retirar.");
+                }
+            }
+            Transaccion.Cuenta = cuenta;
+            return View(Transaccion);
+        }
+
+        public ActionResult NetTransaccion()
+        {
+
+            string UserID = User.Identity.GetUserId();
+            var Usuario = db.Users.Where(u => u.Id == UserID).FirstOrDefault();
+            var Cliente = db.Cliente.Find(Usuario.ClienteID);
+
+            if (Cliente.Cuentas == null)
+            {
+                
+                return HttpNotFound();
+            }
+
+            ViewBag.CuentaIDFrom = new SelectList(Cliente.Cuentas, "Numero", "Numero");
+            ViewBag.CuentaID = new SelectList(db.Cuentas.Where(c => c.ClienteID != Cliente.ClienteID), "Numero", "Numero");
+            Transaccion transaccion = new Transaccion();
+            return View(transaccion);
+        }
+
+        [HttpPost]
+        public ActionResult NetTransaccion([Bind(Include = "CuentaIDFrom,CuentaID,Monto,Fecha,Comentario")] Transaccion Transaccion)
+        {
+            string UserID = User.Identity.GetUserId();
+            var Usuario = db.Users.Where(u => u.Id == UserID).FirstOrDefault();
+            var Cliente = db.Cliente.Find(Usuario.ClienteID);
+
+            Cuenta cuenta = db.Cuentas.Where(c => c.Numero == Transaccion.CuentaID).FirstOrDefault();
+            Cuenta CuentaFrom = db.Cuentas.Where(c => c.Numero == Transaccion.CuentaIDFrom).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                Transaccion.Cuenta = cuenta;
+                if (CuentaFrom.Saldo > (Transaccion.Monto - 100))
+                {
+                    Transaccion.TransaccionID = new Random((cuenta.Numero * db.Transaccion.Count()) / Cliente.Edad).Next();
+                    Transaccion.Tipo = TipoTransferencia.NetBanking;
+                    Transaccion.CuentaIDFrom = Cliente.ClienteID;
+                    db.Entry(Transaccion).State = EntityState.Added;
+                    Transaccion.Cuenta.Saldo += Transaccion.Monto;
+                    db.SaveChanges();
+                    RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Monto", "Su saldo es inferior a la cantidad intenta transferir.");
+                }
+            }
+            Transaccion.Cuenta = cuenta;
+            return View(Transaccion);
         }
 
         protected override void Dispose(bool disposing)

@@ -83,6 +83,11 @@
     @Html.Partial("Prestamos", Model.Prestamo)
 }
 
+@if (Model.Cuentas.Count > 0)
+{
+    @Html.Partial("Cuentas", Model.Cuentas)
+}
+
 
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.ClienteID }, new { @class = "btn btn-raised btn-warning" })

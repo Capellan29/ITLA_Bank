@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Bank.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Bank.Controllers
 {
@@ -29,6 +30,19 @@ namespace Bank.Controllers
             return View(prestamo.ToList());
         }
 
+
+
+        public ActionResult PrestamosCliente()
+        {
+            string id = User.Identity.GetUserId();
+            var usuario = db.Users.Find(id);
+
+            var prestamos = db.Prestamo
+                .Where(c => c.ClienteID == usuario.ClienteID)
+                .Include(c => c.Cliente);
+            return View("index", prestamos.ToList());
+        }
+
         // GET: Prestamos/Details/5
         public ActionResult Details(int? id)
         {
@@ -47,6 +61,7 @@ namespace Bank.Controllers
         }
 
         // GET: Prestamos/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create(int? id)
         {
             ViewBag.ClienteID = new SelectList(db.Cliente, "ClienteID", "FullName",id);
@@ -57,6 +72,7 @@ namespace Bank.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PrestamoID,Plazo,Monto,TasaInteres,TasaMora,Deuda,ProximoPago,Estado,GaranteID,ClienteID")] Prestamo prestamo)
         {
@@ -73,6 +89,7 @@ namespace Bank.Controllers
         }
 
         // GET: Prestamos/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,6 +110,7 @@ namespace Bank.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "PrestamoID,Plazo,Monto,TasaInteres,TasaMora,Deuda,ProximoPago,Estado,GaranteID,ClienteID")] Prestamo prestamo)
         {
             if (ModelState.IsValid)
@@ -106,6 +124,7 @@ namespace Bank.Controllers
         }
 
         // GET: Prestamos/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -123,6 +142,7 @@ namespace Bank.Controllers
         // POST: Prestamos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Prestamo prestamo = db.Prestamo.Find(id);
@@ -131,6 +151,7 @@ namespace Bank.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -140,6 +161,7 @@ namespace Bank.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Aprobar(int? id)
         {
             if (id == null)
@@ -154,6 +176,7 @@ namespace Bank.Controllers
             return View(prestamo);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Otorgar(int? id)
         {
             if (id == null)
@@ -177,6 +200,7 @@ namespace Bank.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Pagar(int? id)
         {
             PrestamoOperations po = new PrestamoOperations();
@@ -190,6 +214,7 @@ namespace Bank.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult Pagar([Bind(Include = "Fecha")] PagoPrestamo pago, int id)
         {
             PrestamoOperations po = new PrestamoOperations();
@@ -197,6 +222,7 @@ namespace Bank.Controllers
             return View("Ticket");
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Amortizacion()
         {
             return View();

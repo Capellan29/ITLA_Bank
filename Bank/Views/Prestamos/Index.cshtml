@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Bank.Models.Prestamo>
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.Owin.Security;
 
 @{
     ViewBag.Title = "Prestamos";
@@ -75,22 +78,23 @@
                 <a href="#" data-target="#" class="dropdown-toggle btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li>@Html.ActionLink("editar", "edit", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>
-                    <li>@Html.ActionLink("detalles", "details", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>
-                    <li>@Html.ActionLink("Eliminar", "delete", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>  
-                    <li class="divider"></li>
-                    @if (item.Estado == Bank.Models.Estado.Solicitado)
-                    {
-                        <li>@Html.ActionLink("aprobar", "aprobar", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
-                    }
-                    else if(item.Estado == Bank.Models.Estado.Aprovado)
-                    {
-                        <li>@Html.ActionLink("Pagar", "pay", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
+                    @if (User.IsInRole("admin"))
+                    { 
+                        <li>@Html.ActionLink("detalles", "details", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>
+                        <li>@Html.ActionLink("Eliminar", "delete", new { id = item.PrestamoID }, new { @class = "btn btn-info" })</li>  
+                        <li class="divider"></li>
+                        if (item.Estado == Bank.Models.Estado.Solicitado)
+                        {
+                            <li>@Html.ActionLink("aprobar", "aprobar", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
+                        }
+                        else if(item.Estado == Bank.Models.Estado.Aprovado)
+                        {
+                            <li>@Html.ActionLink("Pagar", "pay", new { id = item.PrestamoID }, new { @class = "btn btn-success" })</li>
+                        }
                     }
                 </ul>
             </div>
         </td>
-
-
     </tr>
 }
 

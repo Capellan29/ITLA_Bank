@@ -65,7 +65,11 @@ namespace Bank.Controllers
 
             pago.Periodo = db.Pago.Where(p => p.PrestamoID == prestamo.PrestamoID).Count();
             pago.Periodo++;
-          
+            if (prestamo.Plazo == db.Pago.Where(p => p.PrestamoID == prestamo.PrestamoID).Count())
+            {
+                prestamo.Estado = Estado.Pagado;
+                prestamo.Deuda = 0;
+            }
             db.Pago.Add(pago);
             db.Entry(prestamo).State = EntityState.Modified;
             db.SaveChanges();

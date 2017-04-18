@@ -33,6 +33,10 @@ namespace Bank.Models
 
         public int ClienteID { get; set; }
         public virtual Cliente Titular { set; get; }
-            
+        
+        public virtual ICollection<Transaccion> Transacciones { get; set; }
+
+        //[Timestamp]
+        //public byte[] RowVersion { get; set; }
     }
 }

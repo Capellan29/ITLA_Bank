@@ -83,8 +83,8 @@ namespace Bank.Controllers
         {
             if (ModelState.IsValid)
             {
-                int subedula = Convert.ToInt32(cliente.Cedula.Substring(4,4));
-                int AccountNumber = new Random(subedula).Next();
+                int subcedula = Convert.ToInt32(cliente.Cedula.Substring(4,4));
+                int AccountNumber = new Random(subcedula + 1000).Next();
                 cliente.NumeroCuenta = AccountNumber;
                 db.Cliente.Add(cliente);
                 db.SaveChanges();

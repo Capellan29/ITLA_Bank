@@ -1,4 +1,7 @@
 ﻿@model Bank.Models.Cuenta
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.Owin.Security;
 
 @{
     ViewBag.Title = "Details";
@@ -99,5 +102,13 @@
 </div>
 <p>
     @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-raised btn-info" })
-    @Html.ActionLink("Editar", "Edit", new { id = Model.CuentaID }, new { @class = "btn btn-raised btn-primary" }) 
+    @if (User.IsInRole("admin"))
+    {
+        @Html.ActionLink("Editar", "Edit", new { id = Model.CuentaID }, new { @class = "btn btn-raised btn-primary" }) 
+    }
 </p>
+
+@if (Model.Transacciones.Count > 0)
+{
+    @Html.Partial("Transaciones",Model.Transacciones)
+}

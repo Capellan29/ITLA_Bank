@@ -49,7 +49,8 @@ namespace Bank.Models
         [StringLength(12)]
         public string Celular { get; set; }
 
-        public List<Prestamo> Prestamo { set; get; }
+        public virtual ICollection<Prestamo> Prestamo { set; get; }
+        public virtual ICollection<Cuenta> Cuentas { set; get; }
 
         public string FullName
         {

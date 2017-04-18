@@ -30,6 +30,9 @@ namespace Bank
                       "~/Content/site.css",
                       "~/Content/ripples.css",
                       "~/Content/bootstrap-material-design.css"));
+
+            
+      
         }
     }
 }
