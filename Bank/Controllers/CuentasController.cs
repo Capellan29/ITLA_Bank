@@ -20,18 +20,17 @@ namespace Bank.Controllers
         public ActionResult Index()
         {
             var cuentas = db.Cuentas.Include(c => c.Titular);
+            if (!User.IsInRole("admin"))
+            {
+                string id = User.Identity.GetUserId();
+                var usuario = db.Users.Find(id);
+
+                cuentas = cuentas
+                    .Where(c => c.ClienteID == usuario.ClienteID);
+                return View("index", cuentas.ToList());
+            }
+           
             return View(cuentas.ToList());
-        }
-
-        public ActionResult CuentasCliente()
-        {
-            string id = User.Identity.GetUserId();
-            var usuario = db.Users.Find(id);
-
-            var cuentas = db.Cuentas
-                .Where(c => c.ClienteID == usuario.ClienteID)
-                .Include(c => c.Titular);
-            return View("index",cuentas.ToList());
         }
 
         // GET: Cuentas/Details/5

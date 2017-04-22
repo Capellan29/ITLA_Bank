@@ -21,26 +21,23 @@ namespace Bank.Controllers
         public ActionResult Index(Estado? status)
         {
             var prestamo = db.Prestamo
-                .Include(p => p.Cliente);
+                .Include(p => p.Cliente)
+                .Include(p => p.Garante);
             if (status != null)
             {
                 prestamo = prestamo
                     .Where(p => p.Estado == status);
             }
+            if (!User.IsInRole("admin"))
+            {
+                string id = User.Identity.GetUserId();
+                var usuario = db.Users.Find(id);
+
+                prestamo = prestamo
+                    .Where(p => p.ClienteID == usuario.ClienteID);
+            }
+
             return View(prestamo.ToList());
-        }
-
-
-
-        public ActionResult PrestamosCliente()
-        {
-            string id = User.Identity.GetUserId();
-            var usuario = db.Users.Find(id);
-
-            var prestamos = db.Prestamo
-                .Where(c => c.ClienteID == usuario.ClienteID)
-                .Include(c => c.Cliente);
-            return View("index", prestamos.ToList());
         }
 
         // GET: Prestamos/Details/5
@@ -222,7 +219,6 @@ namespace Bank.Controllers
             return View("Ticket");
         }
 
-        [Authorize(Roles = "admin")]
         public ActionResult Amortizacion()
         {
             return View();

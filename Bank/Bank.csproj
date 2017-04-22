@@ -328,7 +328,7 @@
     <Content Include="Views\Cliente\Index.cshtml" />
     <Content Include="Views\Cliente\Edit.cshtml" />
     <Content Include="Views\Cliente\Create.cshtml" />
-    <Content Include="Views\Cliente\Prestamos.cshtml" />
+    <Content Include="Views\Home\Prestamos.cshtml" />
     <Content Include="Views\Prestamos\Create.cshtml" />
     <Content Include="Views\Prestamos\Delete.cshtml" />
     <Content Include="Views\Prestamos\Details.cshtml" />
@@ -347,10 +347,12 @@
     <Content Include="Views\Cuentas\Deposito.cshtml" />
     <Content Include="Views\Cuentas\Retiro.cshtml" />
     <Content Include="Views\Cuentas\Transaciones.cshtml" />
-    <Content Include="Views\Cliente\Cuentas.cshtml" />
+    <Content Include="Views\Home\Cuentas.cshtml" />
     <Content Include="Views\Cuentas\NetTransaccion.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
     <Content Include="Views\Home\Detalles.cshtml" />
+    <Content Include="Views\Cliente\Cuentas.cshtml" />
+    <Content Include="Views\Cliente\Prestamos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

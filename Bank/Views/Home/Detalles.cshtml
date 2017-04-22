@@ -83,10 +83,10 @@
 
 @if (Model.Prestamo.Count > 0)
 {
-    @Html.Partial("~/Views/Cliente/Prestamos.cshtml", Model.Prestamo)
+    @Html.Partial("Prestamos", Model.Prestamo)
 }
 
 @if (Model.Cuentas.Count > 0)
 {
-    @Html.Partial("~/Views/Cliente/Cuentas.cshtml", Model.Cuentas)
+    @Html.Partial("Cuentas", Model.Cuentas)
 }

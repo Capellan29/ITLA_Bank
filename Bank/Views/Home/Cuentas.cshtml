@@ -1,11 +1,6 @@
 ﻿@model IEnumerable<Bank.Models.Cuenta>
 
-@{
-    ViewBag.Title = "Cuentas";
-}
-
-<h2>Cuentas</h2>
-
+<h3>Cuentas de este cliente</h3>
 <table class="table">
     <tr>
         <th>
@@ -37,21 +32,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Estado)
         </td>
-        <td>
-            @Html.ActionLink("detalles", "details", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-info" })
-            @if (User.IsInRole("admin"))
-            {
-                @Html.ActionLink("editar", "edit", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-warning" })
-                @Html.ActionLink("Eliminar", "delete", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-danger" })
-            }
-        </td>
     </tr>
 }
 
 </table>
-
-<br />
-@if (!User.IsInRole("admin"))
-{
-   @Html.ActionLink("Transferencia", "NetTransaccion", null , new { @class = "btn btn-raised btn-info" })
-}

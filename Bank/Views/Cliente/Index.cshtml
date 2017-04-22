@@ -79,20 +79,18 @@
                 @Html.DisplayFor(modelItem => item.Celular)
             </td>
             <td>
+                @Html.ActionLink("detalles", "details", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-info" })
+                @Html.ActionLink("editar", "edit", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-warning" })
+                @Html.ActionLink("Eliminar", "delete", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-danger" })
                 <div class="btn-group">
-                    <a data-toggle="dropdown" data-target="#" class="btn btn-info">Opciones</a>
-                    <a href="#" data-target="#" class="dropdown-toggle btn btn-raised btn-info" data-toggle="dropdown"><span class="caret"></span></a>
+                    <a data-toggle="dropdown" data-target="#" class="btn btn-xs btn-primary">Opciones</a>
+                    <a href="#" data-target="#" class="dropdown-toggle btn btn-xs btn-raised btn-primary" data-toggle="dropdown"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("editar", "edit", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
-                        <li>@Html.ActionLink("detalles", "details", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
-                        <li>@Html.ActionLink("Eliminar", "delete", new { id = item.ClienteID }, new { @class = "btn btn-info" })</li>
-                        <li class="divider"></li>
-                        <li>@Html.ActionLink("Nuevo Prestamo", "Create", "Prestamos", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
-                        <li>@Html.ActionLink("Solicitar Cuenta", "Create", "Cuentas", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
-                        <li>@Html.ActionLink("Net Banking", "ActivaNet", "Account", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-sm" })</li>
-                   
+                        @Html.ActionLink("Solicitar Prestamo", "Create", "Prestamos", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-xs" })
+                        @Html.ActionLink("Solicitar Cuenta", "Create", "Cuentas", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-xs" })
+                        @Html.ActionLink("Activar Net Banking", "ActivaNet", "Account", new { id = item.ClienteID }, new { @class = "btn btn-primary btn-xs" })
                     </ul>
-                </div>        
+                </div>
             </td>
         </tr>
     }

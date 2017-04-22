@@ -1,39 +1,19 @@
 ﻿
-@using Microsoft.AspNet.Identity;
-@using Microsoft.AspNet.Identity.Owin;
-@using Microsoft.Owin.Security;
-
-
-
 <div class="navbar-collapse collapse">
-
-    @if (User.IsInRole("admin"))
-    {
-        <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
+        @if (User.IsInRole("admin"))
+        {
             <li>@Html.ActionLink("Clientes", "Index", "Cliente")</li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" href="bootstrap-elements.html" data-toggle="dropdown" data-target="#">
-                    Prestamos
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>@Html.ActionLink("Prestamos", "Index", "Prestamos")</li>
-                    <li>@Html.ActionLink("Amortizacion", "Amortizacion", "Prestamos")</li>
-                </ul>
-            </li>
+            <li>@Html.ActionLink("Prestamos", "Index", "Prestamos")</li>
             <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
-        </ul>
-    }
-    else if(User.Identity.IsAuthenticated)
-    {
-        <ul class="nav navbar-nav">
-            <li>@Html.ActionLink("Prestamos", "PrestamosCliente", "Prestamos")</li>        
-            <li>@Html.ActionLink("Cuentas", "CuentasCliente", "Cuentas")</li>
-            <li>@Html.ActionLink("Amortizacion", "Amortizacion", "Prestamos")</li>
+        }
+        else if (User.Identity.IsAuthenticated)
+        {
+            <li>@Html.ActionLink("Prestamos", "Index", "Prestamos")</li>
+            <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
             <li>@Html.ActionLink("Mis detalles", "Detalles", "Home")</li>
-        </ul>
-    }
-
-
+        }
+        <li>@Html.ActionLink("Tabla de Amortizacion", "Amortizacion", "Prestamos")</li>
+    </ul>
     @Html.Partial("_LoginPartial")
 </div>
