@@ -1,13 +1,56 @@
-﻿<div class="jumbotron">
-    <h2>
-        Bienvenido a ITLA Bank
-    </h2>
-</div>
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3>Que es ITLA Bank?</h3>
-    </div>
-    <div class="panel-body">
-        Somos una institucion que te permite mantener tu dinero seguro.
-    </div>
-</div>
+﻿<!DOCTYPE HTML>
+@{
+	Layout = null;
+}
+<html>
+	<head>
+		<title>ITLABANK - 2017</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-loading">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main">
+						<header>
+							<img src="images/avatar.png" alt="" />
+							<h1>WELCOME TO</h1>
+							<p>ITLA<em>BANK</em></p>
+						</header>
+						<footer>
+							<ul class="icons">
+								@if(User.Identity.IsAuthenticated)
+								{
+									if(!User.IsInRole("admin"))
+									{
+										<li>@Html.ActionLink("Go","Detalles", null, new { @class = "fa-arrow-right"} )</li>
+									}
+									else
+									{
+										<li>@Html.ActionLink("Go","Index", "Cliente", null, new { @class = "fa-arrow-right"} )</li>
+									}
+								}
+								else
+								{
+									<li>@Html.ActionLink("Go","Login", "Account", null, new { @class = "fa-arrow-right"} )</li>									
+								}
+							</ul>
+						</footer>
+					</section>
+			</div>
+
+		<!-- Scripts -->
+			<!--[if lte IE 8]><script src="assets/js/respond.min.js"></script><![endif]-->
+			<script>
+				if ('addEventListener' in window) {
+					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
+					document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
+				}
+			</script>
+
+	</body>
+</html>
