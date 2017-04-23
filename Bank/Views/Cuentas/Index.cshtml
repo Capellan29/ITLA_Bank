@@ -38,11 +38,17 @@
             @Html.DisplayFor(modelItem => item.Estado)
         </td>
         <td>
-            @Html.ActionLink("detalles", "details", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-info" })
+            <a href="@Url.Action("details", new { id = item.CuentaID })" class="btn btn-sm btn-raised btn-info">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
             @if (User.IsInRole("admin"))
             {
-                @Html.ActionLink("editar", "edit", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-warning" })
-                @Html.ActionLink("Eliminar", "delete", new { id = item.CuentaID }, new { @class = "btn btn-raised btn-sm btn-danger" })
+                <a href="@Url.Action("edit", new { id = item.CuentaID })" class="btn btn-sm btn-raised btn-warning">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("delete", new { id = item.CuentaID })" class="btn btn-sm btn-raised btn-danger">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
             }
         </td>
     </tr>

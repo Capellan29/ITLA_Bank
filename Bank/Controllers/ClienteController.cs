@@ -11,7 +11,6 @@ using System.Web.Mvc;
 using Bank.Models;
 using PagedList;
 
-
 namespace Bank.Controllers
 {
     
@@ -21,7 +20,7 @@ namespace Bank.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: Cliente
-        public ActionResult Index(string currentFilter, string searchString, int? page, string mensaje)
+        public ActionResult Index(string currentFilter, string searchString, int? page, Notification mensaje)
         {
             ViewBag.Mensaje = mensaje;
             if (searchString != null)
@@ -47,7 +46,6 @@ namespace Bank.Controllers
             
             return View(clientes.ToPagedList(pageNumber, pageSize));
         }
-
         // GET: Cliente/Details/5
         public ActionResult Details(int? id)
         {

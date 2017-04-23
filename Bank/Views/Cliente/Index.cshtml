@@ -6,12 +6,14 @@
     ViewBag.Title = "Clientes";
 }
 
-@if (ViewBag.Mensaje != null)
+@if (ViewBag.Mensaje.Title != null)
 {
-    <div class="alert alert-dismissible alert-info">
+    <div class="alert alert-dismissible alert-@ViewBag.Mensaje.NotificationType">
         <button class="close" type="button" data-dismiss="alert">×</button>
-        <strong>Mensaje!!!</strong>
-        @ViewBag.Mensaje
+        <strong>@ViewBag.Mensaje.Title</strong>
+        <br />
+        @ViewBag.Mensaje.Message
+        <strong>@ViewBag.Mensaje.Highlighted</strong>
     </div>
 }
 
@@ -79,9 +81,15 @@
                 @Html.DisplayFor(modelItem => item.Celular)
             </td>
             <td>
-                @Html.ActionLink("detalles", "details", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-info" })
-                @Html.ActionLink("editar", "edit", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-warning" })
-                @Html.ActionLink("Eliminar", "delete", new { id = item.ClienteID }, new { @class = "btn btn-raised btn-xs btn-danger" })
+                <a href="@Url.Action("details", new { id = item.ClienteID })" class="btn btn-sm btn-raised btn-info">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("edit", new { id = item.ClienteID })" class="btn btn-sm btn-raised btn-warning">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("delete", new { id = item.ClienteID })" class="btn btn-sm btn-raised btn-danger">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
                 <div class="btn-group">
                     <a data-toggle="dropdown" data-target="#" class="btn btn-xs btn-primary">Opciones</a>
                     <a href="#" data-target="#" class="dropdown-toggle btn btn-xs btn-raised btn-primary" data-toggle="dropdown"><span class="caret"></span></a>

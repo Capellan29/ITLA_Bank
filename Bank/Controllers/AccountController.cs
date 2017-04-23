@@ -403,8 +403,15 @@ namespace Bank.Controllers
                 ViewBag.ClienteID = new SelectList(new ApplicationDbContext().Cliente, "ClienteID", "FullName", model.ClienteID);
                 return View(model);
             }
-            string msj = "Net banking ha sido activado con exito para el cliente " + ClientName;
-            return RedirectToAction("Index", "Cliente", new { Mensaje = msj });
+            Notification notification = new Notification
+            {
+                Title = "Notificación",
+                Message = "Net banking ha sido activado con exito para el cliente ",
+                Highlighted = ClientName,
+                NotificationType = "info"               
+            };
+            
+            return RedirectToAction("Index", "Cliente", notification );
         }
 
         protected override void Dispose(bool disposing)
